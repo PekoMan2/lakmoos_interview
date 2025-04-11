@@ -62,8 +62,15 @@ router.post(
     async (req, res) => {
         try {
             const { name, description, from, to } = req.body as z.infer<typeof eventSchema>;
+
+            var fromDate = new Date(from);
+            var toDate = new Date(to);
+            if (fromDate > toDate) {
+                throw res.status(400).json({ error: 'Start date cannot be after end date' });
+            }
+            
             const createdEvent = await prisma.event.create({
-                data: { name, description, from, to },
+                data: { name, description, from: new Date(from).toISOString(), to: new Date(to).toISOString() },
             });
             res.status(201).json(createdEvent);
         } catch (error) {
@@ -85,9 +92,16 @@ router.put(
         try {
             const { id } = req.params as unknown as z.infer<typeof idParamSchema>;
             const { name, description, from, to } = req.body as z.infer<typeof updateEventSchema>;
+
+            var fromDate = new Date(from);
+            var toDate = new Date(to);
+            if (fromDate > toDate) {
+                throw res.status(400).json({ error: 'Start date cannot be after end date' });
+            }
+            
             const updatedEvent = await prisma.event.update({
-                where: { id },
-                data: { name, description, from, to },
+                where: { id: Number(id) },
+                data: { name, description, from: new Date(from).toISOString(), to: new Date(to).toISOString() },
             });
             res.json(updatedEvent);
         } catch (error) {
@@ -107,7 +121,7 @@ router.delete(
     async (req, res) => {
         try {
             const { id } = req.params as unknown as z.infer<typeof idParamSchema>;
-            await prisma.event.delete({ where: { id } });
+            await prisma.event.delete({ where: { id: Number(id) } });
             res.status(204).end();
         } catch (error) {
             console.error(`Error deleting event with id ${req.params.id}:`, error);

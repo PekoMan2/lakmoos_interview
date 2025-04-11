@@ -5,11 +5,11 @@ export const getEventsQuerySchema = z.object({
     from: z.string()
         .optional()
         .refine((val) => !val || !isNaN(Date.parse(val)), { message: 'Invalid start date' })
-        .transform((val) => val ? new Date(val) : undefined),
+        .transform((val) => val ? new Date(val).toISOString() : undefined),
     to: z.string()
         .optional()
         .refine((val) => !val || !isNaN(Date.parse(val)), { message: 'Invalid end date' })
-        .transform((val) => val ? new Date(val) : undefined),
+        .transform((val) => val ? new Date(val).toISOString() : undefined),
 });
 
 export const eventSchema = z.object({
@@ -17,10 +17,10 @@ export const eventSchema = z.object({
     description: z.string().optional(),
     from: z.string()
         .refine((val) => !isNaN(Date.parse(val)), { message: 'Invalid start date' })
-        .transform((val) => new Date(val)),
+        .transform((val) => new Date(val).toISOString()),
     to: z.string()
         .refine((val) => !isNaN(Date.parse(val)), { message: 'Invalid end date' })
-        .transform((val) => new Date(val)),
+        .transform((val) => new Date(val).toISOString()),
 });
 
 export const updateEventSchema = eventSchema;
