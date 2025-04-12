@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { Event, EventFormData } from '../types/Event';
+import process from 'process';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/events';
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/events';
 
 export const api = {
   // Get all events

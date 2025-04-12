@@ -23,6 +23,8 @@ services:
   frontend:
     build:
       context: ./frontend
+      env_file:
+        - .env
     ports:
       - "4173:4173"
 
