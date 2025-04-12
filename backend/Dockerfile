@@ -2,6 +2,8 @@ FROM node:23-slim
 
 WORKDIR /app
 
+RUN apt-get update -y && apt-get install -y openssl
+
 COPY package*.json ./
 RUN npm install
 
@@ -13,8 +15,6 @@ RUN chmod +x /wait-for-it.sh
 RUN npx prisma generate
 
 RUN npx tsc -p ./tsconfig.json
-
-RUN apt-get update -y && apt-get install -y openssl
 
 EXPOSE 3000
 
