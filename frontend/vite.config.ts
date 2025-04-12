@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import process from 'process';
 
 export default defineConfig({
   plugins: [react()],
@@ -8,7 +7,7 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '/events': {
-        target: process.env.REACT_APP_API_URL,
+        target: 'http://localhost:3000',
         changeOrigin: true,
       },
     },
