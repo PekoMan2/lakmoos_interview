@@ -1,6 +1,6 @@
 #!/bin/bash
 
-/wait-for-it.sh db:15432 --timeout=30 --strict -- echo "DB up and running"
+/wait-for-it.sh db:5432 --timeout=30 --strict -- echo "DB up and running"
 
 npx prisma migrate deploy --schema=./prisma/schema.prisma
 
